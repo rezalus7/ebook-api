@@ -20,3 +20,31 @@ Route::get('/', function () {
 Route::get('coba', function(){
     return "hallo:D";
 });
+
+
+Route::get('coba1', function(){
+    return ['rafa','rafi','rafo'];
+});
+
+Route::get('coba2', function(){
+    return [
+        'Nama'=>'Rezalu Sihabuddin Al Afiv',
+        'NIS'=>3103120194,
+        'Kelas'=>'XII RPL'
+
+    ];
+});
+
+Route::get('coba3', function(){
+    return response()->json(
+
+     [
+        'Nama'=>'Rezalu Sihabuddin Al Afiv',
+        'NIS'=>3103120194,
+        'Kelas'=>'XII RPL'
+
+     ],201
+     
+    );
+
+});
