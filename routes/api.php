@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +21,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('me', [AuthController::class, 'me']);
 
+//API route for register new user
+Route::post('/register', [AuthController::class, 'register']);
+//API route for login user
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('me',[AuthController::class,'me']);
+//Protecting Routes
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/profile', function(Request $request) {
+        return auth()->user();
+    });
 
-Route::resource('book',BookController::class)->except(
-    ['create','edit']
-);
-Route::resource('authors',AuthorController::class)->except(
-    ['create','edit']
-);
+    Route::resource('books', BookController::class)->except(
+        ['create', 'edit']
+    );
+
+    Route::resource('authors', AuthorController::class)->except(
+        ['create', 'edit']
+    );
+
+    // API route for logout user
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
